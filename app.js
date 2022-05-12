@@ -33,7 +33,6 @@ const logout = document.querySelector('[data-js="logout"]')
 
 const h6 = document.createElement('h6')
 
-
 const show_Phrase_In_Logout = () => {
 
   h6.classList.add('center-align')
@@ -111,7 +110,6 @@ const input_Phrases = (title, phrase) => {
 
 const storeDataFilms = async (title, phrase) => {
   try {
-    console.log('DISPARO....ADD_DOC!!!')
     const result = await addDoc(collection_Ref, {
       title: `${title}`,
       phrase: `${phrase}`
