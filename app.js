@@ -40,13 +40,16 @@ const show_Phrase_In_Logout = () => {
   add_Central_Phrase.insertAdjacentElement('afterbegin', h6)
 }
 
-show_Phrase_In_Logout()
-
 const array_Links = [...ul_NavBar.children]
 
 const modals_Init = () => {
   const modals = document.querySelectorAll('[data-js="modal"]')
   M.Modal.init(modals)
+}
+
+const set_Accordions = () => {
+  const lis = document.querySelectorAll('.collapsible')
+  M.Collapsible.init(lis)
 }
 
 const handler_Modals = () => {
@@ -61,11 +64,6 @@ link_Login.addEventListener('click', () => {
 link_Add_Phrase.addEventListener('click', () => {
   modal_Form.classList.remove('hide')
 })
-
-const set_Accordions = () => {
-  const lis = document.querySelectorAll('.collapsible')
-  M.Collapsible.init(lis)
-}
 
 const hide_Modal_Login = () => {
   modal_Login.classList.add('hide')
@@ -115,7 +113,7 @@ const storeDataFilms = async (title, phrase) => {
       phrase: `${phrase}`
     })
   } catch (error) {
-    alert(error.message)
+    console.log(error.message)
   }
 }
 
@@ -157,6 +155,7 @@ const refresh_Page = () => {
   location.reload('localhost')
 }
 
+show_Phrase_In_Logout()
 set_Accordions()
 
 button_To_Google.addEventListener('click', confirm_Auth_And_Show_links)
