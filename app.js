@@ -13,7 +13,7 @@ const firebaseConfig = {
 };
 
 const app_Firebase = initializeApp(firebaseConfig);
-const provider = new  GoogleAuthProvider()
+const provider = new GoogleAuthProvider()
 const auth = getAuth(app_Firebase);
 const db = getFirestore(app_Firebase)
 const collection_Ref = collection(db, 'frases-de-filmes')
@@ -40,17 +40,18 @@ const show_Phrase_In_Logout = () => {
   h6.textContent = "Faça login para ver as frases"
   add_Central_Phrase.insertAdjacentElement('afterbegin', h6)
 }
+
 show_Phrase_In_Logout()
 
 const array_Links = [...ul_NavBar.children]
 
 const modals_Init = () => {
-const modals = document.querySelectorAll('[data-js="modal"]')
-M.Modal.init(modals)
+  const modals = document.querySelectorAll('[data-js="modal"]')
+  M.Modal.init(modals)
 }
 
 const handler_Modals = () => {
-    modal_Form.classList.toggle('hide')
+  modal_Form.classList.toggle('hide')
 }
 
 link_Login.addEventListener('click', () => {
@@ -77,16 +78,16 @@ const confirm_Auth_And_Add_Count = async () => {
   try {
     const result = await signInWithPopup(auth, provider)
     add_Count(result.user.displayName, result.user.email)
- 
+
   } catch (error) {
     console.log(error.message)
   }
 }
 
 const show_Others_Links = () => {
-  array_Links.forEach( link => {
-    link.dataset.js === 'logged-out' 
-      ? link.classList.add('hide')  
+  array_Links.forEach(link => {
+    link.dataset.js === 'logged-out'
+      ? link.classList.add('hide')
       : link.classList.remove('hide')
   })
 }
@@ -104,12 +105,12 @@ const input_Phrases = (title, phrase) => {
   divHeader.textContent = title
   divBody.textContent = phrase
 
-  li.append( divHeader, divBody)
+  li.append(divHeader, divBody)
   ul_Phrases.append(li)
 }
 
 const storeDataFilms = async (title, phrase) => {
-  try{
+  try {
     console.log('DISPARO....ADD_DOC!!!')
     const result = await addDoc(collection_Ref, {
       title: `${title}`,
@@ -121,26 +122,19 @@ const storeDataFilms = async (title, phrase) => {
 }
 
 const update_DB = () => {
-  onSnapshot( collection_Ref, querySnapshot => {
-    
-      if( ! querySnapshot.metadata.hasPendingWrites){
-         querySnapshot.docs.forEach((doc) => {
-          
-           const {title, phrase} = doc.data()
-           input_Phrases(title, phrase)
+  onSnapshot(collection_Ref, querySnapshot => {
 
-         })
-      }
-    })
-  }
- 
-button_To_Google.addEventListener('click', () => {
-  confirm_Auth_And_Add_Count()
-  show_Others_Links()
-  hide_Modal_Login()
-  update_DB()
-})
-                                          
+    if (!querySnapshot.metadata.hasPendingWrites) {
+      querySnapshot.docs.forEach((doc) => {
+
+        const { title, phrase } = doc.data()
+        input_Phrases(title, phrase)
+
+      })
+    }
+  })
+}
+
 const handler_Data = event => {
   event.preventDefault()
 
@@ -154,9 +148,23 @@ const handler_Data = event => {
   form.reset()
 }
 
+const confirm_Auth_And_Show_links = () => {
+  confirm_Auth_And_Add_Count()
+  show_Others_Links()
+  hide_Modal_Login()
+  update_DB()
+}
+
+const refresh_Page = () => {
+  location.reload('localhost')
+}
+
 set_Accordions()
 
+button_To_Google.addEventListener('click', confirm_Auth_And_Show_links)
 form.addEventListener('submit', handler_Data)
-logout.addEventListener('click', () => {
-  location.reload('localhost')
-})
+logout.addEventListener('click', refresh_Page)
+
+
+
+
